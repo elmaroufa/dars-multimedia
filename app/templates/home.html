@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Flasky - home page{% endblock %}
+{% block page_content %}
+
+<h1>Bienvenue sur le site web {% if current_user.is_authenticated %} 
+    {{ current_user.username }}
+    {% else %}
+    Aucun utilisateur connecter
+    {% endif %}!</h1>
+</div>
+{% endblock %}
