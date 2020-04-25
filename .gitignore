@@ -116,3 +116,7 @@ dmypy.json
 .db
 config.py
 /env
+/migrations
+.gitignore
+.vscode
+.models.py

@@ -36,3 +36,40 @@ class User(UserMixin,db.Model):
 
     def __repr__(self):
         return '<User %r>' % self.username
+    
+
+class Multimedia(db.Model):
+    __tablename__ = 'multimedias'
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(70),index=True)
+    type_media = db.Column(db.String(64),nullable=True)
+    theme = db.Column(db.String(64),nullable=True)
+    body_iframe = db.Column(db.Text)
+    link_dowload = db.Column(db.Text)
+    timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+    date_difusion = db.Column(db.DateTime,nullable=True)
+    author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    predicateur_id = db.Column(db.Integer, db.ForeignKey('predicateurs.id'))
+
+    def __repr__(self):
+        return '<Multimedia %r>' % self.title
+
+
+class Predicateur(db.Model):
+    __tablename__ = 'predicateurs'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(70),index=True)
+    language = db.Column(db.String(64),nullable=True)
+    descriptions = db.Column(db.Text)
+    city = db.Column(db.String(64),nullable=True)
+    info_youtube = db.Column(db.String(100),nullable=True)
+    info_telegram = db.Column(db.String(100),nullable=True)
+    preches = db.relationship('Multimedia', backref='predicateur', lazy='dynamic')
+    
+
+class Message(db.Model):
+    __tablename__ = 'messages'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(64))
+    email = db.Column(db.String(64), index=True)
+    is_read = db.Column(db.Boolean,default=False)

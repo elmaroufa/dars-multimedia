@@ -14,8 +14,8 @@ class Config:
     FLASKY_ADMIN = os.environ.get('FLASKY_ADMIN')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SECRET_KEY = os.urandom(12).hex()
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL')
-    DEBUG = True
+    #SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL')
+    #DEBUG = True
 
     @staticmethod
     def init_app(app):
@@ -34,7 +34,7 @@ class TestingConfig(Config):
     
 class ProductionConfig(Config):
     DEBUG = False
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') or \
+    SQLALCHEMY_DATABASE_URI = os.environ.get('PROD_DATABASE_URL') or \
         'slqlite:///' + os.path.join(basedir,'data-dev.sqlite')
 
 config = {

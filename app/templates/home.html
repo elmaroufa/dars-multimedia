@@ -7,5 +7,20 @@
     {% else %}
     Aucun utilisateur connecter
     {% endif %}!</h1>
-</div>
+    
+     
+    <a href="https://d3ctxlq1ktw2nl.cloudfront.net/staging/2020-3-10/63437589-44100-2-01a32a36069c.m4a" download>telecharger</a></br>
+      <iframe src="https://anchor.fm/abbo/embed/episodes/Sermont-vendredi-Dr-Mousaa-eckp4i" height="102px" width="400px" frameborder="0" scrolling="no"></iframe>
+      
 {% endblock %}
+<div class="navbar-collapse collapse">
+  <ul class="nav navbar-nav">
+      <li><a href="/">Home</a></li>
+  </ul>
+  <ul class="nav navbar-nav navbar-right">
+      {% if current_user.is_authenticated %}
+      <li><a href="{{ url_for('auth.logout') }}">Log Out</a></li>
+      {% else %}
+      <li><a href="{{ url_for('auth.login') }}">Log In</a></li>
+      {% endif %}
+</div>
