@@ -1,8 +1,9 @@
 from flask import render_template,redirect,url_for,request,flash
 from . import auth
 from flask_login import login_user,login_required,logout_user
-from .form import LoginForm,RegisterForm
-from ..models import User
+from .form import LoginForm, RegisterForm, PrediForm
+from ..models import User, Predicateur, Multimedia, Newsletter
+from app import db
 
 @auth.route('/login',methods=['GET','POST'])
 def login():
@@ -30,4 +31,43 @@ def logout():
     logout_user()
     flash("user is logout")
     return redirect(url_for('main.index'))
+
+'''
+list all predicateur for media
+'''
+@auth.route('/all_predicateur')
+@login_required
+def all_predicateur():
+        predicateurs = Predicateur.query.all()
+        return render_template('main.vue_predicateur',predicateurs=predicateurs)
+
+
+@auth.route('/add_predicateur',methods=['POST','GET'])
+@login_required
+def add_predicateur():
+    predicateur = Predicateur()
+    if request.method == 'POST':
+        predicateur.name = request.form['name_predi']
+        predicateur.language = request.form['language_predi']
+        predicateur.descriptions = request.form['descr_predi']
+        predicateur.city = request.form['city_predi']
+        predicateur.info_youtube = request.form['youtube_predi']
+        predicateur.info_telegram = request.form['telegram_predi']
+        predicateur.author_id = request.form['user_id']
+        db.session.add(predicateur)
+        db.session.commit()
+        flash('Creation de predicateur reussi', 'success')
+    return render_template('add_predicateur.html')
+
+
+
+@auth.route('/admin/predicateur/update/<int:predi_id>',methods=['POST','GET'])
+@login_required
+def update_predicateur(predi_id):
+    predicateur = Predicateur.query.get_or_404(predi_id)
+    formpredi = PrediForm()
+
+
+
+
 

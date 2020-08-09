@@ -48,13 +48,17 @@ class Multimedia(db.Model):
     link_dowload = db.Column(db.Text)
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     date_difusion = db.Column(db.DateTime,nullable=True)
+    size_file = db.Column(db.Integer,nullable=True)
+    index_media = db.Column(db.Integer,nullable=True)
     author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     predicateur_id = db.Column(db.Integer, db.ForeignKey('predicateurs.id'))
 
     def __repr__(self):
         return '<Multimedia %r>' % self.title
 
-
+'''
+teacher media
+'''
 class Predicateur(db.Model):
     __tablename__ = 'predicateurs'
     id = db.Column(db.Integer, primary_key=True)
@@ -63,13 +67,16 @@ class Predicateur(db.Model):
     descriptions = db.Column(db.Text)
     city = db.Column(db.String(64),nullable=True)
     info_youtube = db.Column(db.String(100),nullable=True)
+    timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     info_telegram = db.Column(db.String(100),nullable=True)
+    author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     preches = db.relationship('Multimedia', backref='predicateur', lazy='dynamic')
     
-
-class Message(db.Model):
-    __tablename__ = 'messages'
+'''
+formulaire de la newsletter
+'''
+class Newsletter(db.Model):
+    __tablename__ = 'newsletters'
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(64))
+    timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     email = db.Column(db.String(64), index=True)
-    is_read = db.Column(db.Boolean,default=False)

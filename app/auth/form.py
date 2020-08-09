@@ -24,3 +24,18 @@ class RegisterForm(FlaskForm):
     def validate_username(self,field):
         if User.query.filter_by(username=field.data):
             raise ValidationError('user already using')
+
+class PrediForm(FlaskForm):
+    name = StringField('Nom Predicateur', validators=[DataRequired(), Length(1, 64)])
+    language = StringField('Langue predication', validators=[DataRequired(), Length(1, 64)])
+    description = StringField('Description', validators=[DataRequired(), Length(1, 64)])
+    city = StringField('Ville du predicateur', validators=[DataRequired(), Length(1, 64)])
+    info_youtube = StringField('Lien sur youtube', validators=[DataRequired(), Length(1, 64)])
+    info_telegram = StringField('Lien telegram', validators=[DataRequired(), Length(1, 64)])
+
+
+class MultimediForm(FlaskForm):
+    title = StringField('Titre du media', validators=[DataRequired(), Length(1, 64)])
+
+class NewsletterForm(FlaskForm):
+    email = StringField('Email', validators=[DataRequired(), Length(1, 64), Email()])
