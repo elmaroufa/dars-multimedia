@@ -94,6 +94,26 @@ def delete_predi(predi_id):
     flash('supression predicateur reussi','succes')
     return redirect(url_for('auth.all_predicateur'))
 
+'''
+add simple media
+'''
+@auth.route('/admin/media/add_simple_media',methods=['POST','GET'])
+@login_required
+def add_simple_media():
+    media = Multimedia()
+    predicateurs = Predicateur.query.all()
+    media.title = request.form['title_media']
+    media.type_media = request.form['type_media']
+    media.theme = request.form['theme_media']
+    media.index_media = 0
+    media.body_iframe = request.form['iframe_media']
+    media.link_dowload = request.form['link_media']
+    media.date_difusion = request.form['difusion_date_media']
+    media.author_id = request.form['autho_media']
+    media.predicateur_id = request.form['predi_media']
+
+
+
 
 
 
