@@ -66,6 +66,13 @@ def add_predicateur():
 def update_predicateur(predi_id):
     predicateur = Predicateur.query.get_or_404(predi_id)
     formpredi = PrediForm()
+    formpredi.name.data = predicateur.name
+    formpredi.language.data = predicateur.language
+    formpredi.city.data = predicateur.city
+    formpredi.info_telegram.data =  predicateur.info_telegram
+    formpredi.info_youtube.data = predicateur.youtube_predi
+    formpredi.description.data = predicateur.description
+
 
 
 
