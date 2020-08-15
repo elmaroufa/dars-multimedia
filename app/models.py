@@ -50,6 +50,8 @@ class Multimedia(db.Model):
     date_difusion = db.Column(db.DateTime,nullable=True)
     size_file = db.Column(db.Integer,nullable=True)
     index_media = db.Column(db.Integer,nullable=True)
+    code_course = db.Column(db.String(74),nullable=True)
+    course_descriptions = db.Column(db.String(74),nullable=True)
     author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     predicateur_id = db.Column(db.Integer, db.ForeignKey('predicateurs.id'))
 

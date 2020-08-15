@@ -1,9 +1,19 @@
 from flask import render_template,redirect,url_for,request,flash
+import string
+import random
+from datetime import datetime
 from . import auth
 from flask_login import login_user,login_required,logout_user
 from .form import LoginForm, RegisterForm, PrediForm
 from ..models import User, Predicateur, Multimedia, Newsletter
 from app import db
+
+
+'''
+def return random string key by attribute code_course media
+'''
+def key_course():
+    my_key = ''.join(random.choices(string.ascii_uppercase +  string.digits, k = 10))
 
 '''
 fonction add request form predicateur
@@ -105,14 +115,29 @@ def add_simple_media():
     media.title = request.form['title_media']
     media.type_media = request.form['type_media']
     media.theme = request.form['theme_media']
-    media.index_media = 0
+    if media.type_media == 'cours':
+        media.index_media = 1
+    else:
+        media.index_media = 0
     media.body_iframe = request.form['iframe_media']
     media.link_dowload = request.form['link_media']
     media.date_difusion = request.form['difusion_date_media']
     media.author_id = request.form['autho_media']
     media.predicateur_id = request.form['predi_media']
+    if request.method == 'POST':
+        db.session.add(media)
+        db.commit()
+        flash('creation de media reussi','success')
+    render_template("add_media_simple.html", predicateurs=predicateurs)
 
 
+'''
+add news cours media
+'''
+@auth.route('/admin/media/add_new_course/<int:id_first_media>',methods=['POST','GET'])
+@login_required
+def new_course(id_first_media):
+    first_media = Multimedia.query.filter_by(id=id_first_media)
 
 
 
