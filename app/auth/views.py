@@ -28,6 +28,22 @@ def idratePredicateur(predicateur):
     predicateur.author_id = request.form['user_id']
     return predicateur
 
+'''
+test database table migrate
+'''
+@auth.route('/admin/test')
+def test_marouf():
+    predi = Predicateur()
+    predi.name = 'check sangou'
+    predi.language = 'FRANCAIS'
+    predi.descriptions = 'PREDICATEUR TAWID'
+    predi.city = 'DOUALA'
+    predi.author_id = 1
+    db.session.add(predi)
+    db.session.commit()
+    return 'persistance finish'
+
+
 @auth.route('/login',methods=['GET','POST'])
 def login():
     form = LoginForm()
