@@ -13,7 +13,11 @@ from app import db
 def return random string key by attribute code_course media
 '''
 def key_course():
+    date_now = datetime.now()
+    date_str = date_now.strftime("%d-%m-%Y")
     my_key = ''.join(random.choices(string.ascii_uppercase +  string.digits, k = 10))
+    my_key = date_str + '-' + my_key
+    return my_key
 
 '''
 fonction add request form predicateur
@@ -33,15 +37,8 @@ test database table migrate
 '''
 @auth.route('/admin/test')
 def test_marouf():
-    predi = Predicateur()
-    predi.name = 'check sangou'
-    predi.language = 'FRANCAIS'
-    predi.descriptions = 'PREDICATEUR TAWID'
-    predi.city = 'DOUALA'
-    predi.author_id = 1
-    db.session.add(predi)
-    db.session.commit()
-    return 'persistance finish'
+    mykey = key_course()
+    return mykey
 
 
 @auth.route('/login',methods=['GET','POST'])
