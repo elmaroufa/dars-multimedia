@@ -128,8 +128,10 @@ def add_simple_media():
     media.title = request.form['title_media']
     media.type_media = request.form['type_media']
     media.theme = request.form['theme_media']
-    if media.type_media == 'cours':
+    if media.type_media == 'courses':
         media.index_media = 1
+        media.code_course = key_course()
+        media.course_descriptions = request.form['media_descriptions']
     else:
         media.index_media = 0
     media.body_iframe = request.form['iframe_media']
@@ -153,8 +155,48 @@ def new_course(id_first_media):
     first_media = Multimedia.query.filter_by(id=id_first_media)
 
 
+'''
+views all media type conferences or sermont by predicateur
+'''
+@auth.route('/admin/predicateur/all_media/<int:predicateur_id>')
+@login_required
+def views_all_media(predicateur_id):
+    media = Multimedia.query.filter_by(predicateur_id=predicateur_id,index_media=0).all()
+    return media
 
+'''
+views all media courses
+'''
+@auth.route('/admin/predicateur/all_course/<int:predicateur_id>')
+@login_required
+def views_all_course(predicateur_id):
+    media = Multimedia.query.filter_by(predicateur_id=predicateur_id,index_media=1).all()
+    return media
 
+'''
+all chapitre courses
+'''
+@auth.route('/admin/predicateur/all_chapitre/<string:code_course')
+@login_required
+def all_chapitre(code_course):
+    media = Multimedia.query.filter_by(code_course=code_course).all()
+    return media
+
+'''
+add new chapitre course
+'''
+@auth.route('/admin/predicateur/new_chapitre', methods=['POST','GET'])
+@login_required
+def add_new_chapitre():
+    code_course = request.form['code_course']
+    mediaUpdate = Multimedia.query.filter_by(code_course=code_course).first()
+    new_media = Multimedia()
+    news_index  = Multimedia.query.filter_by(code_course=code_course).count()
+    news_index = news_index + 1
+    new_media.title = mediaUpdate.title
+    new_media.type_media = mediaUpdate.theme
+    
+    
 
 
 
