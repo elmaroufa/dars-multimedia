@@ -194,7 +194,19 @@ def add_new_chapitre():
     news_index  = Multimedia.query.filter_by(code_course=code_course).count()
     news_index = news_index + 1
     new_media.title = mediaUpdate.title
-    new_media.type_media = mediaUpdate.theme
+    new_media.type_media = mediaUpdate.type_media
+    new_media.theme = mediaUpdate.theme
+    new_media.code_course = code_course
+    new_media.course_descriptions = request.form['course_descriptions']
+    new_media.body_iframe = request.form['body_iframe']
+    new_media.link_dowload = request.formm['link_dowload']
+    new_media.author_id = request.form['id_author']
+    new_media.predicateur_id = mediaUpdate.predicateur_id
+    if request.method == 'POST':
+        db.session.add(new_media)
+        db.session.commit()
+        flash('Ajout nouveau course reussi', 'success')
+        return redirect(url_for('views_all_chapitre'))
     
     
 
