@@ -109,8 +109,9 @@ delete predicateur
 @auth.route('/admin/predicateur/delete/<int:predi_id>')
 @login_required
 def delete_predi(predi_id):
-    predicateur = Predicateur.query.get_or_404(predi_id)
-    media = Multimedia.query.filter_by(predicateur_id=predi_id)
+    predicateur = Predicateur.query.get_or_404(predi_id).first()
+    #supression de beaucoup de models,delete many model
+    media = Multimedia.query.filter_by(predicateur_id=predi_id).all()
     db.session.delete(predicateur)
     db.session.delete(media)
     db.session.commit()
@@ -158,7 +159,7 @@ def new_course(id_first_media):
 '''
 views all media type conferences or sermont by predicateur
 '''
-@auth.route('/admin/predicateur/all_media/<int:predicateur_id>')
+@auth.route('/admin/media/all_media/<int:predicateur_id>')
 @login_required
 def views_all_media(predicateur_id):
     media = Multimedia.query.filter_by(predicateur_id=predicateur_id,index_media=0).all()
@@ -167,7 +168,7 @@ def views_all_media(predicateur_id):
 '''
 views all media courses
 '''
-@auth.route('/admin/predicateur/all_course/<int:predicateur_id>')
+@auth.route('/admin/media/all_course/<int:predicateur_id>')
 @login_required
 def views_all_course(predicateur_id):
     media = Multimedia.query.filter_by(predicateur_id=predicateur_id,index_media=1).all()
@@ -176,7 +177,7 @@ def views_all_course(predicateur_id):
 '''
 all chapitre courses
 '''
-@auth.route('/admin/predicateur/all_chapitre/<string:code_course')
+@auth.route('/admin/media/all_chapitre/<string:code_course>')
 @login_required
 def all_chapitre(code_course):
     media = Multimedia.query.filter_by(code_course=code_course).all()
@@ -185,7 +186,7 @@ def all_chapitre(code_course):
 '''
 add new chapitre course
 '''
-@auth.route('/admin/predicateur/new_chapitre', methods=['POST','GET'])
+@auth.route('/admin/media/new_chapitre', methods=['POST','GET'])
 @login_required
 def add_new_chapitre():
     code_course = request.form['code_course']
@@ -210,7 +211,31 @@ def add_new_chapitre():
     
     
 
+'''
+update media
+'''
+@auth.route('/admin/media/uptade/<int:id_media>', methods=['POST','GET'])
+@login_required
+def updateMedia(id_media):
+    mediaUpdate = Multimedia.query.filter_by(id=id_media).first()
+    type_media = mediaUpdate.type_media
+    if type_media == 'COURSES':
+        mediaUpdate.course_descriptions = request.form['media_description']
+    if request.method == 'POST':
+        mediaUpdate.title = request.form['title']
+        mediaUpdate.theme = request.form['theme']
+        mediaUpdate.body_iframe = request.form['iframe']
+        mediaUpdate.link_dowload = request.form['link']
+        db.session.commit()
+        return redirect(url_for('views_all_media'))
+    return render_template('edit_media.html', mediaUpdate = mediaUpdate)
 
+'''
+delete media
+'''
+@auth.route('/admin/media/delete/<int:id_media>')
+@login_required
+def delete_media(id_media):
 
 
 
