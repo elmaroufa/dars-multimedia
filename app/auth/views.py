@@ -236,6 +236,10 @@ delete media
 @auth.route('/admin/media/delete/<int:id_media>')
 @login_required
 def delete_media(id_media):
-
+    media = Multimedia.query.get_or_404(id_media)
+    db.session.delete(media)
+    db.session.commit()
+    flash('Supression reussi du media','success')
+    return redirect(url_for('views_all_media'))
 
 
