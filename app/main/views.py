@@ -20,12 +20,17 @@ def indexLastMedia(lastmedia):
 @main.route('/')
 def index():
     last_course = Multimedia.query.filter_by(type_course='COURSE').all()
+    last_simpleMedia = Multimedia.query.filter_by(index_media=0).all()
+    last_simpleMedia.reverse()
     last_course.reverse()
     total_course = last_course
+    total_media = last_simpleMedia
     nombre_course = len(last_course)
+    nombre_media = len(total_media)
     if nombre_course > 2:
-        new_course = []
-        new_course.append(total_course[0])
+        total_course = indexLastMedia(total_course)
+    return render_template('main.html',courses=total_course)
+        
         
 
     return render_template('home.html')
