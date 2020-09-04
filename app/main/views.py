@@ -17,6 +17,9 @@ def indexLastMedia(lastmedia):
     return list_course
 
 
+'''
+controller home page
+'''
 @main.route('/')
 def index():
     last_course = Multimedia.query.filter_by(type_media='COURSES').all()
@@ -30,6 +33,9 @@ def index():
         lastConference=lastConference,lastSermont = lastSermont)
 
 
+'''
+view all media in type
+'''
 @main.route('/medias/<string:type_media>')
 def allMedias(type_media):
     medias = Multimedia.query.filter_by(type_media=type_media).all()
