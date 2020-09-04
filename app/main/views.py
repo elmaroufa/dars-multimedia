@@ -19,17 +19,19 @@ def indexLastMedia(lastmedia):
 
 @main.route('/')
 def index():
-    last_course = Multimedia.query.filter_by(type_media='CONFERENCE').all()
-    last_simpleMedia = Multimedia.query.filter_by(index_media=0).all()
-    last_simpleMedia.reverse()
+    last_course = Multimedia.query.filter_by(type_media='COURSES').all()
+    lastSermont = Multimedia.query.filter_by(type_media='SERMONT VENDREDI').all()
+    lastConference = Multimedia.query.filter_by(type_media='CONFERENCE').all()
+    predicateurs = Predicateur.query.all()
+    lastSermont.reverse()
+    lastConference.reverse()
     last_course.reverse()
-    #total_course = last_course
-    total_media = last_simpleMedia
-    nombre_course = len(last_course)
-    nombre_media = len(total_media)
-    marouf = 'SALY ABBO'
-    return render_template('main.html',last_course=last_course,marouf=marouf)
-        
-        
+    return render_template('main.html',last_course=last_course,predicateurs=predicateurs, \
+        lastConference=lastConference,lastSermont = lastSermont)
 
-    return render_template('home.html')
+
+@main.route('/medias/<string:type_media>')
+def allMedias(type_media):
+    medias = Multimedia.query.filter_by(type_media=type_media).all()
+    medias.reverse()
+    return render_template('medias.html',medias=medias)
