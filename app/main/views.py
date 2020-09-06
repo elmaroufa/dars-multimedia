@@ -6,16 +6,16 @@ from .. import db
 
 
 '''
-fonction pour renvoyer uniquement les 3 derniers medias
+fonction pour associer chaque media a un predicateur 
 '''
-def indexLastMedia(lastmedia):
+def associatePredi(medias):
     i=0
-    list_course = []
-    while i<3:
-        list_course.append(lastmedia[i])
-        i = i+1
-    return list_course
+    nombre = len(medias)
+    while i < nombre:
+        medias[i].predicateur = Predicateur.query.filter_by(id=medias[i].predicateur_id).first()
+        i = i + 1
 
+    
 
 '''
 controller home page
@@ -39,24 +39,29 @@ view all media in type
 @main.route('/medias/<string:type_media>')
 def allMedias(type_media):
     medias = Multimedia.query.filter_by(type_media=type_media).all()
+    associatePredi(medias)
     medias.reverse()
     return render_template('medias.html',medias=medias)
 
 @main.route('/medias/course')
 def allCourses():
     medias = Multimedia.query.filter_by(type_media='COURSES',index_media=1).all()
+    associatePredi(medias)
     medias.reverse()
     return render_template('course.html',courses=medias)
 
 @main.route('/medias/chapitre/<string:code_course>')
 def allChapitre(code_course):
     medias = Multimedia.query.filter_by(code_course=code_course).all()
+    associatePredi(medias)
     return render_template('chapitre.html',medias=medias)
 
 @main.route('/medias/<int:id_media>')
 def viewMedia(id_media):
     media = Multimedia.query.filter_by(id=id_media).first()
-    return render_template('view_media.html',media=media)
+    predi = Predicateur.query.filter_by(id = media.predicateur_id).first()
+    predicateur = predi.name
+    return render_template('view_media.html',media=media,predicateur=predicateur)
 
 @main.route('/predicateurs')
 def allpredicateur():
