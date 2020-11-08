@@ -29,7 +29,7 @@ def index():
     lastSermont.reverse()
     lastConference.reverse()
     last_course.reverse()
-    return render_template('main.html',last_course=last_course,predicateurs=predicateurs,\
+    return render_template('main/main.html',last_course=last_course,predicateurs=predicateurs,\
         lastConference=lastConference,lastSermont = lastSermont)
 
 
